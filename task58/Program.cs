@@ -25,11 +25,34 @@ void PrintArray(int[,] array)
     }
 }
 
+int[,] MultiplicationArray(int[,] matrix1, int[,] matrix2, int[,] multiplicationMatrix)
+{
+    if (matrix1.GetLength(1) != matrix2.GetLength(0))  // охранник
+    {
+        throw new Exception ("Нельзя умножать такие матрицы");
+    }
+
+    // int[,] multiplicationMatrix = new int[matrix1.GetLength(0), matrix2.GetLength(1)];  // 000000000
+
+    for (int i = 0; i < multiplicationMatrix.GetLength(0); i++)
+    {
+        for (int j = 0; j < multiplicationMatrix.GetLength(1); j++)
+        {
+            for (int k = 0; k < matrix1.GetLength(1); k++)
+            {
+                multiplicationMatrix[i, j] += matrix1[i, k] * matrix2[k, j];
+            }
+        }
+    }
+    return multiplicationMatrix;
+    
+}
+
 Console.WriteLine("Найти призведение двух матриц");
 
 int[,] matrix1 = new int[2, 2];
 int[,] matrix2 = new int[2, 2];
-int[,] sumMatrix = new int[2, 2];
+int[,] multiplicationMatrix = new int[2, 2];
 
 FillArray(matrix1);
 FillArray(matrix2);
@@ -39,10 +62,6 @@ PrintArray(matrix1);
 Console.WriteLine();
 Console.WriteLine("Матица В");
 PrintArray(matrix2);
-
-sumMatrix[0, 0] = matrix1[0, 0] * matrix2[0, 0] + matrix1[0, 1] * matrix2[1, 0];
-sumMatrix[1, 0] = matrix1[1, 0] * matrix2[0, 0] + matrix1[1, 1] * matrix2[1, 0];
-sumMatrix[0, 1] = matrix1[0, 0] * matrix2[0, 1] + matrix1[0, 1] * matrix2[1, 1];
-sumMatrix[1, 1] = matrix1[1, 0] * matrix2[0, 1] + matrix1[1, 1] * matrix2[1, 1];
-Console.WriteLine("Произведение матриц АхВ");
-PrintArray(sumMatrix);
+MultiplicationArray(matrix1, matrix2, multiplicationMatrix);
+System.Console.WriteLine("\nПроизведение матриц А и В\n");
+PrintArray(multiplicationMatrix);
